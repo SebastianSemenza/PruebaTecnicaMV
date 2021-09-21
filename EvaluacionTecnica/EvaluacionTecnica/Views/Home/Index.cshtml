@@ -1,0 +1,59 @@
+﻿@model List<Modelo.RegistroClima>
+
+@{
+    ViewBag.Title = "Home Page";
+    List<Modelo.Ciudad> listaC = (List<Modelo.Ciudad>)ViewBag.listaC;
+}
+
+<div class="jumbotron">
+
+    <form asp-controller="Home" asp-action="index" method="post" enctype="multipart/form-data">
+        <select id="Ciudad" name="Ciudad">
+            <option value="-1">Seleccione la ciudad...</option>
+            @foreach (Modelo.Ciudad reg in listaC)
+            {
+                <option value="@reg.id">@reg.nombre</option>
+            }
+        </select>
+
+        @Html.CheckBox("checkHistorico")
+        <label for="checkHistorico" style="display:inline">Mostrar historial</label>
+
+        <button id="Consultar" type="submit">Consultar</button>
+        <br />
+    </form>
+
+    <label>Ciudad: @ViewBag.nomCiudad</label>
+    <br />
+    Clima: <label id="temp"> @ViewBag.temp</label>
+    - Sensacion termica:<label id="termica"> @ViewBag.term</label>
+    <br />
+
+    @if (Model.Count > 0)
+    {
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Pais</th>
+                    <th scope="col">Ciudad</th>
+                    <th scope="col">Temperatura</th>
+                    <th scope="col">Sensacion Termica</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Modelo.RegistroClima reg in Model)
+                {
+                <tr>
+                    <td>@reg.id</td>
+                    <td>@reg.ciudad.pais</td>
+                    <td>@reg.ciudad.nombre</td>
+                    <td>@reg.temperatura°</td>
+                    <td>@reg.termica°</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
